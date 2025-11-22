@@ -12,7 +12,7 @@ A. Concept
    Wireframe-like geometry emphasizing construction and strokes.
 
 3. Uppercase Mode (“Light”)
-   Wide, flat, industrial aesthetic.
+   Flat, no-curve and industrialization.
    Characters rendered based on Chakra Petch.
    Shapes compressed and stretched with CSS transforms to resemble stencil-like block forms.
 
