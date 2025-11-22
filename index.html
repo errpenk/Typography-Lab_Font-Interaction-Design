@@ -3,24 +3,32 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>lowercase - SHANG</title>
+    <title>UPPERCASE - SHANG</title>
+
+    <!-- Import Font from UPPERCASE.html -->
     <style>
+      @import url("https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@700&display=swap");
+
       :root {
-        --bg-color: #0a0a0a;
-        --stroke-color: #f0f0f0;
+        /* Colors updated to White Background / Black Text */
+        --bg-color: #ffffff;
+        --stroke-color: #000000;
         --accent-color: #00d2ff;
-        --stroke-width: 8px;
+        --card-bg-hover: #000000;
+        --text-hover: #ffffff;
         --size: 70px;
       }
 
       body {
         background-color: var(--bg-color);
-        font-family: "Courier New", monospace;
+        /* Font for UI elements (not the display font) */
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
         display: flex;
         flex-direction: column;
         align-items: center;
         padding: 40px;
-        color: #888;
+        color: #333;
+        transition: background-color 0.3s, color 0.3s;
       }
 
       h1 {
@@ -29,9 +37,12 @@
         text-transform: uppercase;
         letter-spacing: 4px;
         margin-bottom: 50px;
-        opacity: 0.8;
+        font-weight: bold;
+        border-bottom: 2px solid var(--stroke-color);
+        padding-bottom: 10px;
       }
 
+      /* GRID LAYOUT from LOWERCASE.html */
       .alphabet-grid {
         display: grid;
         grid-template-columns: repeat(6, 1fr);
@@ -42,45 +53,47 @@
       .char-card {
         width: var(--size);
         height: var(--size);
-        border-bottom: 1px solid #222;
+        border: 1px solid #ddd; /* Lighter border for white mode */
         display: flex;
         justify-content: center;
-        align-items: flex-end;
-        padding-bottom: 10px;
-        transition: transform 0.2s;
+        align-items: center;
+        transition: transform 0.2s, background-color 0.2s, border-color 0.2s;
+        background: #f9f9f9;
+        overflow: hidden;
       }
 
       .char-card:hover {
         transform: translateY(-5px);
+        background-color: var(--card-bg-hover);
+        border-color: var(--card-bg-hover);
       }
 
-      svg {
-        width: 100%;
-        height: 100%;
-        overflow: visible;
+      /* THE FONT STYLE from UPPERCASE.html */
+      .tech-char {
+        font-family: "Chakra Petch", sans-serif;
+        font-weight: 700;
+        font-size: 40px; /* Adjusted to fit the card size */
+        color: var(--stroke-color);
+
+        /* The specific transform requested */
+        transform: scale(1.5, 0.8);
+
+        /* Clean rendering */
+        text-shadow: none;
+        -webkit-font-smoothing: antialiased;
+        pointer-events: none; /* Let clicks pass to card */
+        transition: color 0.2s;
       }
 
-      path,
-      line,
-      polyline {
-        fill: none;
-        stroke: var(--stroke-color);
-        stroke-width: var(--stroke-width);
-        stroke-linecap: square;
-        stroke-linejoin: bevel;
-        transition: stroke 0.3s ease;
+      .char-card:hover .tech-char {
+        color: var(--text-hover);
       }
 
-      .char-card:hover path,
-      .char-card:hover line {
-        stroke: var(--accent-color);
-        filter: drop-shadow(0 0 4px var(--accent-color));
-      }
-
+      /* PLAYGROUND SECTION from LOWERCASE.html */
       .playground {
         width: 100%;
         max-width: 800px;
-        border-top: 1px solid #222;
+        border-top: 2px solid #eee;
         padding-top: 40px;
         text-align: center;
       }
@@ -90,20 +103,24 @@
         flex-wrap: wrap;
         justify-content: center;
         align-items: flex-end;
-        gap: 4px;
+        gap: 10px; /* Slightly more gap for the wide font */
         min-height: 80px;
         margin-bottom: 20px;
       }
 
+      /* Container for typed letters */
       .input-display div {
-        width: 40px;
+        width: 50px;
         height: 60px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
       }
 
       input {
         background: transparent;
         border: none;
-        border-bottom: 2px solid #333;
+        border-bottom: 2px solid #ccc;
         color: var(--stroke-color);
         font-size: 24px;
         text-align: center;
@@ -112,15 +129,16 @@
         font-family: monospace;
         width: 300px;
         transition: border-color 0.3s;
+        text-transform: uppercase;
       }
 
       input:focus {
-        border-color: var(--accent-color);
+        border-color: var(--stroke-color);
       }
     </style>
   </head>
   <body>
-    <h1>lowercase lab | SHANG 2025</h1>
+    <h1>UPPERCASE LAB | SHANG 2025</h1>
 
     <div class="alphabet-grid" id="grid"></div>
 
@@ -136,75 +154,37 @@
     </div>
 
     <script>
-      /* 
-           UNIFORM WIDTH LOGIC:
-           Every letter (except pure vertical strokes i/j) must fill 
-           Left X: 20 to Right X: 80.
-           
-           This standardizes the 'visual block' of the font.
-           p and q bowl: Moved up to Y=25 to Y=55 (maintained from prev request).
-        */
-
-      const alphabet = {
-        a: '<path d="M20 45 H80 V90 H20 V65 H80" />',
-        b: '<path d="M20 10 V90 H80 V55 H20" />',
-        c: '<path d="M80 45 H20 V90 H80" />',
-        d: '<path d="M80 10 V90 H20 V55 H80" />',
-        e: '<path d="M80 90 H20 V45 H80 M20 68 H70" />',
-        f: '<path d="M30 90 V10 H80 M20 45 H70" />', // Extended bars
-        g: '<path d="M80 45 H20 V90 H80 V70 H60" />',
-        h: '<path d="M20 10 V90 M20 55 H80 V90" />',
-
-        // i and j: Maintained as lines, centered
-        i: '<path d="M50 45 V90 M50 15 V25" />',
-        j: '<path d="M60 45 V80 L50 90 H40 M60 15 V25" />',
-
-        k: '<path d="M20 10 V90 M80 45 L20 68 L80 90" />', // Stretched width
-        l: '<path d="M30 10 V90 H80" />', // Widened base
-        m: '<path d="M20 90 V45 H50 V90 M50 45 H80 V90" />', // Compressed to fit 20-80
-        n: '<path d="M20 45 V90 M20 45 H80 V90" />',
-        o: '<path d="M20 45 H80 V90 H20 V45" />',
-
-        // p and q: High-waisted (y25-55) + Wide (x20-80)
-        p: '<path d="M20 90 V10 M20 25 H80 V55 H20" />',
-        q: '<path d="M80 90 V10 M80 25 H20 V55 H80" />',
-
-        r: '<path d="M20 45 V90 M20 55 H80" />', // Extended arm
-        s: '<path d="M80 45 H20 V68 H80 V90 H20" />',
-        t: '<path d="M50 10 V90 H80 M20 45 H80" />', // Extended crossbar
-        u: '<path d="M20 45 V90 H80 V45" />',
-        v: '<path d="M20 45 L50 90 L80 45" />',
-        w: '<path d="M20 45 L35 90 L50 60 L65 90 L80 45" />', // Compressed to fit 20-80
-        x: '<path d="M20 45 L80 90 M80 45 L20 90" />',
-        y: '<path d="M20 45 V75 H80 V45 M50 75 V90" />',
-        z: '<path d="M20 45 H80 L20 90 H80" />',
-      };
-
+      // We simply generate A-Z since we are using a Web Font now
+      const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
       const grid = document.getElementById("grid");
       const input = document.getElementById("texter");
       const display = document.getElementById("display");
 
       // Render Grid
-      Object.keys(alphabet).forEach((key) => {
+      chars.forEach((char) => {
         const card = document.createElement("div");
         card.className = "char-card";
-        card.innerHTML = `<svg viewBox="0 0 100 100">${alphabet[key]}</svg>`;
+        // Using the class 'tech-char' to apply the UPPERCASE style logic
+        card.innerHTML = `<span class="tech-char">${char}</span>`;
         grid.appendChild(card);
       });
 
       // Interactive Typer
       input.addEventListener("input", (e) => {
-        const val = e.target.value.toLowerCase();
+        // Force Uppercase
+        const val = e.target.value.toUpperCase();
         display.innerHTML = "";
+
         for (let char of val) {
-          if (alphabet[char]) {
-            const div = document.createElement("div");
-            div.innerHTML = `<svg viewBox="0 0 100 100">${alphabet[char]}</svg>`;
-            display.appendChild(div);
-          } else if (char === " ") {
+          if (char === " ") {
             const space = document.createElement("div");
-            space.style.width = "20px";
+            space.style.width = "30px";
             display.appendChild(space);
+          } else {
+            const div = document.createElement("div");
+            // Apply the same font class to the typed text
+            div.innerHTML = `<span class="tech-char">${char}</span>`;
+            display.appendChild(div);
           }
         }
       });
