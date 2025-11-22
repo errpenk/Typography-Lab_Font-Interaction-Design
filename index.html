@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>lowercase - SHANG</title>
+    <style>
+      :root {
+        --bg-color: #0a0a0a;
+        --stroke-color: #f0f0f0;
+        --accent-color: #00d2ff;
+        --stroke-width: 8px;
+        --size: 70px;
+      }
+
+      body {
+        background-color: var(--bg-color);
+        font-family: "Courier New", monospace;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 40px;
+        color: #888;
+      }
+
+      h1 {
+        color: var(--stroke-color);
+        font-size: 16px;
+        text-transform: uppercase;
+        letter-spacing: 4px;
+        margin-bottom: 50px;
+        opacity: 0.8;
+      }
+
+      .alphabet-grid {
+        display: grid;
+        grid-template-columns: repeat(6, 1fr);
+        gap: 25px;
+        margin-bottom: 60px;
+      }
+
+      .char-card {
+        width: var(--size);
+        height: var(--size);
+        border-bottom: 1px solid #222;
+        display: flex;
+        justify-content: center;
+        align-items: flex-end;
+        padding-bottom: 10px;
+        transition: transform 0.2s;
+      }
+
+      .char-card:hover {
+        transform: translateY(-5px);
+      }
+
+      svg {
+        width: 100%;
+        height: 100%;
+        overflow: visible;
+      }
+
+      path,
+      line,
+      polyline {
+        fill: none;
+        stroke: var(--stroke-color);
+        stroke-width: var(--stroke-width);
+        stroke-linecap: square;
+        stroke-linejoin: bevel;
+        transition: stroke 0.3s ease;
+      }
+
+      .char-card:hover path,
+      .char-card:hover line {
+        stroke: var(--accent-color);
+        filter: drop-shadow(0 0 4px var(--accent-color));
+      }
+
+      .playground {
+        width: 100%;
+        max-width: 800px;
+        border-top: 1px solid #222;
+        padding-top: 40px;
+        text-align: center;
+      }
+
+      .input-display {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: flex-end;
+        gap: 4px;
+        min-height: 80px;
+        margin-bottom: 20px;
+      }
+
+      .input-display div {
+        width: 40px;
+        height: 60px;
+      }
+
+      input {
+        background: transparent;
+        border: none;
+        border-bottom: 2px solid #333;
+        color: var(--stroke-color);
+        font-size: 24px;
+        text-align: center;
+        padding: 10px;
+        outline: none;
+        font-family: monospace;
+        width: 300px;
+        transition: border-color 0.3s;
+      }
+
+      input:focus {
+        border-color: var(--accent-color);
+      }
+    </style>
+  </head>
+  <body>
+    <h1>lowercase lab | SHANG 2025</h1>
+
+    <div class="alphabet-grid" id="grid"></div>
+
+    <div class="playground">
+      <div class="input-display" id="display"></div>
+      <input
+        type="text"
+        id="texter"
+        placeholder="TYPE HERE"
+        maxlength="20"
+        autocomplete="off"
+      />
+    </div>
+
+    <script>
+      /* 
+           UNIFORM WIDTH LOGIC:
+           Every letter (except pure vertical strokes i/j) must fill 
+           Left X: 20 to Right X: 80.
+           
+           This standardizes the 'visual block' of the font.
+           p and q bowl: Moved up to Y=25 to Y=55 (maintained from prev request).
+        */
+
+      const alphabet = {
+        a: '<path d="M20 45 H80 V90 H20 V65 H80" />',
+        b: '<path d="M20 10 V90 H80 V55 H20" />',
+        c: '<path d="M80 45 H20 V90 H80" />',
+        d: '<path d="M80 10 V90 H20 V55 H80" />',
+        e: '<path d="M80 90 H20 V45 H80 M20 68 H70" />',
+        f: '<path d="M30 90 V10 H80 M20 45 H70" />', // Extended bars
+        g: '<path d="M80 45 H20 V90 H80 V70 H60" />',
+        h: '<path d="M20 10 V90 M20 55 H80 V90" />',
+
+        // i and j: Maintained as lines, centered
+        i: '<path d="M50 45 V90 M50 15 V25" />',
+        j: '<path d="M60 45 V80 L50 90 H40 M60 15 V25" />',
+
+        k: '<path d="M20 10 V90 M80 45 L20 68 L80 90" />', // Stretched width
+        l: '<path d="M30 10 V90 H80" />', // Widened base
+        m: '<path d="M20 90 V45 H50 V90 M50 45 H80 V90" />', // Compressed to fit 20-80
+        n: '<path d="M20 45 V90 M20 45 H80 V90" />',
+        o: '<path d="M20 45 H80 V90 H20 V45" />',
+
+        // p and q: High-waisted (y25-55) + Wide (x20-80)
+        p: '<path d="M20 90 V10 M20 25 H80 V55 H20" />',
+        q: '<path d="M80 90 V10 M80 25 H20 V55 H80" />',
+
+        r: '<path d="M20 45 V90 M20 55 H80" />', // Extended arm
+        s: '<path d="M80 45 H20 V68 H80 V90 H20" />',
+        t: '<path d="M50 10 V90 H80 M20 45 H80" />', // Extended crossbar
+        u: '<path d="M20 45 V90 H80 V45" />',
+        v: '<path d="M20 45 L50 90 L80 45" />',
+        w: '<path d="M20 45 L35 90 L50 60 L65 90 L80 45" />', // Compressed to fit 20-80
+        x: '<path d="M20 45 L80 90 M80 45 L20 90" />',
+        y: '<path d="M20 45 V75 H80 V45 M50 75 V90" />',
+        z: '<path d="M20 45 H80 L20 90 H80" />',
+      };
+
+      const grid = document.getElementById("grid");
+      const input = document.getElementById("texter");
+      const display = document.getElementById("display");
+
+      // Render Grid
+      Object.keys(alphabet).forEach((key) => {
+        const card = document.createElement("div");
+        card.className = "char-card";
+        card.innerHTML = `<svg viewBox="0 0 100 100">${alphabet[key]}</svg>`;
+        grid.appendChild(card);
+      });
+
+      // Interactive Typer
+      input.addEventListener("input", (e) => {
+        const val = e.target.value.toLowerCase();
+        display.innerHTML = "";
+        for (let char of val) {
+          if (alphabet[char]) {
+            const div = document.createElement("div");
+            div.innerHTML = `<svg viewBox="0 0 100 100">${alphabet[char]}</svg>`;
+            display.appendChild(div);
+          } else if (char === " ") {
+            const space = document.createElement("div");
+            space.style.width = "20px";
+            display.appendChild(space);
+          }
+        }
+      });
+    </script>
+  </body>
+</html>
