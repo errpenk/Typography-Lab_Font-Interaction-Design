@@ -1,57 +1,51 @@
+<!--  maintain semantic DOM structure and remove all inline logic -->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>SHANG LAB | 2025</title>
-    
-    <link rel="stylesheet" href="assets/css/style.css">
   </head>
-  <body class="lowercase">
+  <body class="lowercase"> <!-- 默认状态 -->
     
+    <!-- Navigation -->
     <nav class="nav-bar">
-      <button class="nav-btn active" id="btn-lower">Lowercase</button>
-      <button class="nav-btn" id="btn-upper">Uppercase</button>
+      <button class="nav-btn active" data-mode="lowercase">Lowercase</button>
+      <button class="nav-btn" data-mode="uppercase">Uppercase</button>
     </nav>
 
+    <!-- Structure Diagrams (Left/Right) -->
     <div id="diagram-left" class="diagram-container">
-      <div class="diagram-box" id="diagram-content-left"></div>
+      <div class="diagram-box"></div>
     </div>
     <div id="diagram-right" class="diagram-container">
-      <div class="diagram-box" id="diagram-content-right"></div>
+      <div class="diagram-box"></div>
     </div>
 
-    <h1 id="main-title">lowercase lab | SHANG 2025</h1>
+    <!-- Main Content -->
+    <main>
+      <h1 id="main-title">lowercase lab | SHANG 2025</h1>
+      <div class="alphabet-grid" id="grid"></div>
 
-    <div class="alphabet-grid" id="grid"></div>
+      <!-- Playground -->
+      <div class="playground" id="playground">
+        <div class="scroll-arrow-container visible" id="scroll-indicator">
+          <svg viewBox="0 0 50 50">
+            <path d="M10 15 L25 35 L40 15" stroke-linecap="round" stroke-linejoin="round" fill="none"></path>
+          </svg>
+        </div>
 
-    <div class="playground" id="playground-area">
-      <div class="scroll-arrow-container visible" id="scroll-arrow">
-        <svg viewBox="0 0 50 50">
-          <path d="M10 15 L25 35 L40 15" stroke-linecap="round" stroke-linejoin="round" fill="none"></path>
-        </svg>
+        <div class="input-display lowercase-mode" id="display-area"></div>
+        
+        <input type="text" id="type-input" placeholder="TYPE HERE" maxlength="100" autocomplete="off" />
+        <div class="char-counter" id="char-counter">0 / 100</div>
       </div>
+    </main>
 
-      <div class="input-display lowercase-mode" id="display"></div>
-      
-      <input
-        type="text"
-        id="texter"
-        placeholder="TYPE HERE"
-        maxlength="100"
-        autocomplete="off"
-      />
-      <div class="char-counter" id="char-counter">0 / 100</div>
-    </div>
+    <!-- Tooltip -->
+    <div class="scroll-tooltip" id="tooltip">Scroll to Type ↓</div>
 
-    <div class="scroll-tooltip" id="tooltip">
-      Scroll to Type ↓
-    </div>
-
-    <script type="module" src="assets/js/constants.js"></script>
-    <script type="module" src="assets/js/diagram.js"></script>
-    <script type="module" src="assets/js/theme.js"></script>
-    <script type="module" src="assets/js/input.js"></script>
-    <script type="module" src="assets/js/main.js"></script>
+    <script type="module" src="/src/main.js"></script>
   </body>
 </html>
