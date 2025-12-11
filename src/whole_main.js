@@ -1,3 +1,5 @@
+/*
+
 import { ELEMENTS, MODE } from './constants.js';
 import { switchMode, renderGrid } from './theme.js';
 import { handleInput } from './input.js';
@@ -85,3 +87,6 @@ document.addEventListener('DOMContentLoaded', () => {
   console.log('SHANG LAB 2025 Initialized.');
 });
 */
+
+
+ */
