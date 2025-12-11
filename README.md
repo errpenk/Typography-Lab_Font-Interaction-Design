@@ -2,35 +2,88 @@
 
 This project is a minimalist experiment in dynamic typography. The same input text can be rendered in two completely different visual systems depending on whether the characters are lowercase or uppercase.
 
-A. Concept
-1. Dual-Theme System
-   The interface presents two distinct modes that coexist in a single design.
+> **Duality in Form.**
+> An interactive typographic study contrasting the mechanical precision of Uppercase with the schematic complexity of Lowercase.
 
-2. Lowercase Mode (“Dark”)
-   Futuristic and linear visual style.
-   Characters rendered as SVG paths.
-   Wireframe-like geometry emphasizing construction and strokes.
+[![Vite](https://img.shields.io/badge/Vite-5.0-646CFF?style=flat&logo=vite)](https://vitejs.dev/)
+[![Sass](https://img.shields.io/badge/Sass-1.70-CC6699?style=flat&logo=sass)](https://sass-lang.com/)
+[![License](https://img.shields.io/badge/license-MIT-green)](./LICENSE)
 
-3. Uppercase Mode (“Light”)
-   Flat, no-curve and industrialization.
-   Characters rendered based on Chakra Petch.
-   Shapes compressed and stretched with CSS transforms to resemble stencil-like block forms.
+## ✦ Concept
 
+**Typography Lab Project** is a digital type specimen that functions as a dual-state application. It explores two distinct visual identities:
 
-B. Technical Implementation
-1. Vanilla Web Stack
-   The only external resource is the Google Font used for the uppercase mode, ensuring high performance.
+1.  **LOWERCASE (Schematic Mode):** Dark themed, architectural, SVG-path based. It treats letters as blueprints.
+2.  **UPPERCASE (Industrial Mode):** Light themed, bold, font-based. It treats letters as finished products.
 
-2. Theming Engine
-   A global transition on the body element interpolates color variables over 0.5 seconds, producing a smooth fade rather than a hard switch.
+The project demonstrates how to manage complex state transitions and high-performance DOM manipulation using modern, vanilla JavaScript architecture.
 
+##  Key Features
 
-C.Rendering Strategies
-  1. Lowercase: SVG paths generated from a JavaScript object defining each letter’s geometry, providing precise control over stroke width and cap styles.
-  2. Uppercase: Web-font-based rendering using Chakra Petch, modified through CSS transforms to achieve the effects.
+*   **Dual-State Engine:** Seamless switching between "Schematic" (SVG) and "Industrial" (Font) modes using a centralized State Manager.
+*   **Event-Driven Communication:** Decoupled interaction between the Grid and the Diagram overlays using a custom Event Emitter pattern.
+*   **Data-Driven Rendering:** Typographic data (SVG paths) is separated from logic, allowing for easy updates to the glyph set.
+*   **Reactive Playground:** A typewriter input that dynamically renders the custom glyphs based on the current state.
 
 
-D. Input and State Logic
-  1. Input is sanitized depending on the active mode (forcing lowercase or uppercase).
-  2. Characters are rendered in real time by generating either SVG elements or span elements.
-  3. Character counting is handled through a simple length check.
+
+##  Engineering Highlights
+
+This project is built with a focus on modern engineering principles for maintainability and scalability:
+
+### 1. Decoupled Components via Event Bus
+Components communicate asynchronously using a custom `EventEmitter` (Pub/Sub pattern). This ensures that the `GridSystem` (which handles user interaction on the alphabet) does not need direct knowledge of the `DiagramOverlay` (which visually responds to hovers).
+
+*Example:*
+```javascript
+// src/modules/GridSystem.js
+this.container.addEventListener('mouseenter', (e) => {
+  // Grid announces an event, without knowing who's listening.
+  document.dispatchEvent(new CustomEvent('grid:hover', { detail: { ... } }));
+});
+
+// src/modules/DiagramOverlay.js
+document.addEventListener('grid:hover', (e) => this.show(e.detail));
+
+
+
+### 2. Config over Code
+The extensive SVG path data for the custom alphabet (GLYPHS_LOWER) is critical but inherently separate from application logic. By moving this data into src/config/typography.js, we achieve:
+
+Readability: Logic files are cleaner and easier to understand.
+Maintainability: Typographic assets can be updated or replaced without altering core application logic.
+Reusability: Data is more portable.
+3. CSS Variable Theming
+The dual-state application (lowercase vs. uppercase) is managed efficiently using CSS Custom Properties (Variables). JavaScript's role is minimal: it simply toggles a class on the <body> element. The SCSS then uses these variables to dynamically apply themes.
+
+Example:
+
+code
+Scss
+// src/styles/main.scss (and imported abstract/_variables.scss)
+body.lowercase {
+  --bg-color: #0a0a0a;
+  --stroke-color: #f0f0f0;
+  --accent-color: #00d2ff;
+  // ... other lowercase styles
+}
+
+body.uppercase {
+  --bg-color: #ffffff;
+  --stroke-color: #000000;
+  --accent-color: #00d2ff; // Accent can be shared or themed differently
+  // ... other uppercase styles
+}
+This allows components to automatically adapt to theme changes without direct style manipulation in JS.
+
+## Design System
+The visual language and typographic foundation are meticulously crafted and defined in src/styles/abstract/_variables.scss.
+
+Font A (Schematic/Code): Courier New - Used for the input field and character counter, evoking a sense of technical documentation.
+Font B (Industrial/Header): Chakra Petch (imported via Google Fonts) - Provides a bold, impactful display for headers and key elements in uppercase mode.
+Font C (UI/Labeling): Helvetica Neue (fallback) - Offers a clean, standard sans-serif for general UI elements and labels in uppercase mode.
+Accent Color: #00d2ff (Cyber Cyan) - A vibrant, consistent accent used across both themes for interactive elements and visual highlights.
+
+
+## License
+This project is open source and available under the MIT License.
