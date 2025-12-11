@@ -4,9 +4,13 @@ import { ELEMENTS, MODE } from './constants.js';
 import { switchMode, renderGrid } from './theme.js';
 import { handleInput } from './input.js';
 
+ */
+
 /**
  * 初始化工具提示和 Intersection Observer
  */
+
+/*
 function setupTooltip() {
     ELEMENTS.TOOLTIP.addEventListener("click", () => {
         ELEMENTS.PLAYGROUND.scrollIntoView({ behavior: "smooth" });
@@ -28,6 +32,9 @@ function setupTooltip() {
 
     observer.observe(ELEMENTS.PLAYGROUND);
 }
+
+ */
+
 
 /**
  * 设置所有主要的事件监听器
@@ -88,4 +95,3 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 */
 
-*/
