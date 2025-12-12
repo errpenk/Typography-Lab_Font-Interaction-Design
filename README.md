@@ -14,13 +14,13 @@ This project is a minimalist experiment in dynamic typography. The same input te
 **Typography Lab Project** is a digital type specimen that functions as a dual-state application. It explores two distinct visual identities:
 
 1.  **LOWERCASE (Schematic Mode):** Dark themed, architectural, SVG-path based. It treats letters as blueprints.
-2.  **UPPERCASE (Industrial Mode):** Light themed, bold, font-based. It treats letters as finished products.
+2.  **UPPERCASE (Industrial Mode):** Light themed, bold, the variation of Chakra Petch (bold/debt). It treats letters as finished products.
 
 The project demonstrates how to manage complex state transitions and high-performance DOM manipulation using modern, vanilla JavaScript architecture.
 
 ##  Key Features
 
-*   **Dual-State Engine:** Seamless switching between "Schematic" (SVG) and "Industrial" (Font) modes using a centralized State Manager.
+*   **Dual-State Engine:** Seamless switching between "Schematic" (SVG) and "Industrial" (variation) modes using a centralized State Manager.
 *   **Event-Driven Communication:** Decoupled interaction between the Grid and the Diagram overlays using a custom Event Emitter pattern.
 *   **Data-Driven Rendering:** Typographic data (SVG paths) is separated from logic, allowing for easy updates to the glyph set.
 *   **Reactive Playground:** A typewriter input that dynamically renders the custom glyphs based on the current state.
@@ -38,14 +38,13 @@ Components communicate asynchronously using a custom `EventEmitter` (Pub/Sub pat
 ### 2. Config over Code
 The extensive SVG path data for the custom alphabet (GLYPHS_LOWER) is critical but inherently separate from application logic. By moving this data into src/config/typography.js, we achieve:
 
-Readability: Logic files are cleaner and easier to understand.
-Maintainability: Typographic assets can be updated or replaced without altering core application logic.
-Reusability: Data is more portable.
+*   **Readability:** Logic files are cleaner and easier to understand.
+*   **Maintainability:** Typographic assets can be updated or replaced without altering core application logic.
+*   **Reusability:** Data is more portable.
 
 ### 3. CSS Variable Theming
 The dual-state application (lowercase vs. uppercase) is managed efficiently using CSS Custom Properties (Variables). JavaScript's role is minimal: it simply toggles a class on the <body> element. The SCSS then uses these variables to dynamically apply themes.
 
-This allows components to automatically adapt to theme changes without direct style manipulation in JS.
 
 ## Design System
 The visual language and typographic foundation are meticulously crafted and defined in src/styles/abstract/_variables.scss.
@@ -53,7 +52,7 @@ The visual language and typographic foundation are meticulously crafted and defi
 *   **Font A (Schematic/Code):** Courier New - Used for the input field and character counter, evoking a sense of technical documentation.
 *   **Font B (Industrial/Header):** Chakra Petch (imported via Google Fonts) - Provides a bold, impactful display for headers and key elements in uppercase mode.
 *   **Font C (UI/Labeling):** Helvetica Neue (fallback) - Offers a clean, standard sans-serif for general UI elements and labels in uppercase mode.
-*   **Accent Color:** #00d2ff (Cyber Cyan) - A vibrant, consistent accent used across both themes for interactive elements and visual highlights.
+*   **Accent Color:** #00d2ff (Cyber Cyan-based) - A vibrant, consistent accent used across both themes for interactive elements and visual highlights.
 
 
 ## License
