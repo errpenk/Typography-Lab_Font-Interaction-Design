@@ -3,7 +3,7 @@
 This project is a minimalist experiment in dynamic typography. The same input text can be rendered in two completely different visual systems depending on whether the characters are lowercase or uppercase.
 
 > **Duality in Form.**
-> An interactive typographic study contrasting the mechanical precision of Uppercase with the schematic complexity of Lowercase.
+> An interactive typographic study.
 
 [![Vite](https://img.shields.io/badge/Vite-5.0-646CFF?style=flat&logo=vite)](https://vitejs.dev/)
 [![Sass](https://img.shields.io/badge/Sass-1.70-CC6699?style=flat&logo=sass)](https://sass-lang.com/)
