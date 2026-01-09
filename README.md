@@ -49,9 +49,9 @@ The dual-state application (lowercase vs. uppercase) is managed efficiently usin
 ## Design System
 The visual language and typographic foundation are meticulously crafted and defined in src/styles/abstract/_variables.scss.
 
-*   **Font A (Schematic/Code):** Courier New - Used for the input field and character counter, evoking a sense of technical documentation.
-*   **Font B (Industrial/Header):** Chakra Petch (imported via Google Fonts) - Provides a bold, impactful display for headers and key elements in uppercase mode.
-*   **Font C (UI/Labeling):** Helvetica Neue (fallback) - Offers a clean, standard sans-serif for general UI elements and labels in uppercase mode.
+*   **Font A (Schematic/Code):** Courier New - Used for the input field and character counter.
+*   **Font B (Industrial/Header):** Chakra Petch (imported via Google Fonts) - Provides a bold, impactful display.
+*   **Font C (UI/Labeling):** Helvetica Neue (fallback) - Offers a clean, standard sans-serif for general UI elements and labels.
 *   **Accent Color:** #00d2ff (Cyber Cyan-based) - A vibrant, consistent accent used across both themes for interactive elements and visual highlights.
 
 
