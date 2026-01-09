@@ -42,9 +42,6 @@ The extensive SVG path data for the custom alphabet (GLYPHS_LOWER) is critical b
 *   **Maintainability:** Typographic assets can be updated or replaced without altering core application logic.
 *   **Reusability:** Data is more portable.
 
-### 3. CSS Variable Theming
-The dual-state application (lowercase vs. uppercase) is managed efficiently using CSS Custom Properties (Variables). JavaScript's role is minimal: it simply toggles a class on the <body> element. The SCSS then uses these variables to dynamically apply themes.
-
 
 ## Design System
 The visual language and typographic foundation are meticulously crafted and defined in src/styles/abstract/_variables.scss.
